@@ -1,4 +1,4 @@
-package com.example.micro_habits
+package com.trillionclues.micro_habits
 
 import io.flutter.embedding.android.FlutterActivity
 

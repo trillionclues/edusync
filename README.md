@@ -7,10 +7,10 @@ A Flutter package for tracking daily micro habits with offline-first architectur
 - ✅ Fully offline habit tracking
 - ✅ Auto-generated random habits
 - ✅ Clean architecture with BLoC state management
+- ✅ Firebase Authentication (Google Sign-In + Guest mode)
 - ✅ Drift (SQLite) as single source of truth
 - ✅ Hive for user preferences
 - ✅ Today's habits view with checkbox completion
-- ✅ Material Design 3 UI
 
 ## How to Run
 
@@ -29,6 +29,10 @@ A Flutter package for tracking daily micro habits with offline-first architectur
    flutter run
    ```
 
+4. **Sign in:**
+    - Tap **"Continue as Guest"** for full offline functionality
+    - Or configure Firebase for Google Sign-In (see FIREBASE_SETUP.md)
+
 The app will work completely offline - no internet connection required!
 
 ## Opening Drift Database in DevTools
@@ -39,7 +43,7 @@ The app will work completely offline - no internet connection required!
 
 2. **Access Database:**
     - The SQLite database file is located at: `[Documents]/micro_habits.sqlite`
-    - On Android: `/data/data/com.example.micro_habits/app_flutter/micro_habits.sqlite`
+    - On Android: `/data/data/com.trillionclues.micro_habits/app_flutter/micro_habits.sqlite`
     - On iOS: `~/Documents/micro_habits.sqlite`
 
 3. **View with SQLite Browser:**
