@@ -1,46 +1,38 @@
-import 'dart:ui';
-
-import 'package:micro_habits/core/theme/app_font.dart';
+import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class AppTextStyles {
-  static final TextStyle bodyMedium = TextStyle(
-    fontFamily: AppFonts.primaryFont,
+  static final bodyMedium = GoogleFonts.familjenGrotesk(
     fontSize: 16,
     fontWeight: FontWeight.w400,
   );
 
-  static final TextStyle bodyLarge = TextStyle(
-    fontFamily: AppFonts.primaryFont,
+  static final bodyLarge = GoogleFonts.familjenGrotesk(
     fontSize: 18,
     fontWeight: FontWeight.w400,
   );
 
-  static final TextStyle bodySmall = TextStyle(
-    fontFamily: AppFonts.primaryFont,
+  static final bodySmall = GoogleFonts.familjenGrotesk(
     fontSize: 14,
     fontWeight: FontWeight.w400,
   );
 
-  static final TextStyle titleMedium = TextStyle(
-    fontFamily: AppFonts.primaryFont,
+  static final titleMedium = GoogleFonts.familjenGrotesk(
     fontSize: 20,
     fontWeight: FontWeight.w500,
   );
 
-  static final TextStyle titleLarge = TextStyle(
-    fontFamily: AppFonts.primaryFont,
+  static final titleLarge = GoogleFonts.familjenGrotesk(
     fontSize: 22,
     fontWeight: FontWeight.w500,
   );
 
-  static final TextStyle titleSmall = TextStyle(
-    fontFamily: AppFonts.primaryFont,
+  static final titleSmall = GoogleFonts.familjenGrotesk(
     fontSize: 18,
     fontWeight: FontWeight.w500,
   );
 
-  static final TextStyle button = TextStyle(
-    fontFamily: AppFonts.primaryFont,
+  static final button = GoogleFonts.familjenGrotesk(
     fontSize: 16,
     fontWeight: FontWeight.w600,
   );

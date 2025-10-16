@@ -56,14 +56,14 @@ class AuthRepository {
   }
 
   // sign in anonymously (offline)
-  Future<Either<Failure, User>> signInAnonymously() async {
-    try {
-      final userCredential = await _firebaseAuth.signInAnonymously();
-      return Either.right(_userFromFirebase(userCredential.user!));
-    } catch (e) {
-      return Either.left(AuthFailure(message: e.toString()));
-    }
-  }
+  // Future<Either<Failure, User>> signInAnonymously() async {
+  //   try {
+  //     final userCredential = await _firebaseAuth.signInAnonymously();
+  //     return Either.right(_userFromFirebase(userCredential.user!));
+  //   } catch (e) {
+  //     return Either.left(AuthFailure(message: e.toString()));
+  //   }
+  // }
 
   Future<Either<Failure, void>> signOut() async {
     try {

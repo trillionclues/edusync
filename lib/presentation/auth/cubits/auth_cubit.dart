@@ -60,19 +60,20 @@ class AuthCubit extends Cubit<AuthState> {
     emit(state.copyWith(isLoading: true));
     try {
       await _authRepository.signInWithGoogle();
+      emit(state.copyWith(isLoading: false));
     } catch (e) {
       emit(state.copyWith(isLoading: false));
     }
   }
 
-  Future<void> signInAnonymously() async {
-    emit(state.copyWith(isLoading: true));
-    try {
-      await _authRepository.signInAnonymously();
-    } catch (e) {
-      emit(state.copyWith(isLoading: false));
-    }
-  }
+  // Future<void> signInAnonymously() async {
+  //   emit(state.copyWith(isLoading: true));
+  //   try {
+  //     await _authRepository.signInAnonymously();
+  //   } catch (e) {
+  //     emit(state.copyWith(isLoading: false));
+  //   }
+  // }
 
   Future<void> signOut() async {
     emit(state.copyWith(isLoading: true));

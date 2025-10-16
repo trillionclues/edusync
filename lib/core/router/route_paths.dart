@@ -1,3 +1,8 @@
-class AppRoutes = {
-  
+enum AppRoutePaths {
+  splash,
+  login,
+
+  home,
+
+  habit
 }

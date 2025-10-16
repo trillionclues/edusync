@@ -1,15 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:micro_habits/core/theme/app_colors.dart';
+import 'package:micro_habits/core/ui/widgets/mh_button.dart';
 import 'package:micro_habits/presentation/auth/cubits/auth_cubit.dart';
 
 class LoginPage extends StatelessWidget {
   const LoginPage({super.key});
 
+  static const route = '/login';
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: ColoredBox(
-        color: const Color(0xFF4E55E0),
+        color: AppColors.primary,
         child: BlocBuilder<AuthCubit, AuthState>(
           builder: (context, state) {
             return SafeArea(
@@ -44,50 +48,17 @@ class LoginPage extends StatelessWidget {
                         ),
                       )
                     else ...[
-                      SizedBox(
-                        width: double.infinity,
-                        height: 56,
-                        child: ElevatedButton(
-                          onPressed: () {
-                            context.read<AuthCubit>().signInWithGoogle();
-                          },
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: Colors.white,
-                            foregroundColor: const Color(0xFF0F172A),
-                            elevation: 0,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(28),
-                            ),
-                          ),
-                          child: const Text(
-                            'Get started',
-                            style: TextStyle(
-                              fontSize: 18,
-                              fontWeight: FontWeight.w700,
-                            ),
-                          ),
-                        ),
-                      ),
-                      const SizedBox(height: 12),
-                      TextButton(
-                        onPressed: () {
-                          context.read<AuthCubit>().signInAnonymously();
-                        },
-                        child: const Text(
-                          'I have an account',
-                          style: TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.w300,
-                            color: Colors.white,
-                            decoration: TextDecoration.underline,
-                            decorationColor: Colors.white,
-                          ),
-                        ),
+                      MHButton(
+                        text: 'Continue with Google',
+                        textColor: AppColors.white,
+                        backgroundColor: AppColors.white.withOpacity(0.25),
+                        loading: state.isLoading,
+                        onPressed: () =>
+                            context.read<AuthCubit>().signInWithGoogle(),
+                        padding: const EdgeInsets.symmetric(vertical: 10),
                       ),
                     ],
-
                     const Spacer(),
-
                     Padding(
                       padding: const EdgeInsets.only(bottom: 24),
                       child: RichText(
@@ -100,7 +71,8 @@ class LoginPage extends StatelessWidget {
                           ),
                           children: [
                             TextSpan(
-                              text: 'By starting or signing in, you agree\nto our ',
+                              text:
+                                  'By starting or signing in, you agree\nto our ',
                             ),
                             TextSpan(
                               text: 'Terms of use',
