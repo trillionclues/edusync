@@ -14,6 +14,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "842577736395-5gg8lmu8i6pr1f6em97sh8isjhicve8p.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.trillionclues.micro_habits",
+            "certificate_hash": "9b94e9e0dd641cad003c1c494f3832c894c74fe7"
+          }
+        },
+        {
           "client_id": "842577736395-an05bt0gqlv7kkb70kkq3b70lcpojap6.apps.googleusercontent.com",
           "client_type": 3
         }
