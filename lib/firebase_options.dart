@@ -50,21 +50,19 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyAE4OV69pRfvUoOXVU1Ek1UUS2tlN2uS2E',
-    appId: '1:842577736395:android:a97a8448d308b00d3c614e',
-    messagingSenderId: '842577736395',
-    projectId: 'micro-habits-c8247',
-    storageBucket: 'micro-habits-c8247.firebasestorage.app',
+    apiKey: 'AIzaSyBVO0ruE3JXwAAhIkGJgGl8VhM_ETx7e0k',
+    appId: '1:838687299049:android:0e2c8a87b7997067722778',
+    messagingSenderId: '838687299049',
+    projectId: 'edusync-hub-62d3c',
+    storageBucket: 'edusync-hub-62d3c.firebasestorage.app',
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyBXUD-8Mo4jsMDtt1YwUsgkb89UPbTqZt0',
-    appId: '1:842577736395:ios:6cddc6a6a2aee57a3c614e',
-    messagingSenderId: '842577736395',
-    projectId: 'micro-habits-c8247',
-    storageBucket: 'micro-habits-c8247.firebasestorage.app',
-    iosClientId: '842577736395-3h3d5hubh1t4s0rjhsgk609vgs9jbce9.apps.googleusercontent.com',
+    apiKey: 'AIzaSyCJ9CQYUd4vLZ8Twd0JeUf-_H-yhOhYLSA',
+    appId: '1:838687299049:ios:ff395209c4902653722778',
+    messagingSenderId: '838687299049',
+    projectId: 'edusync-hub-62d3c',
+    storageBucket: 'edusync-hub-62d3c.firebasestorage.app',
     iosBundleId: 'com.trillionclues.microHabits',
   );
-
 }

@@ -1,45 +1,45 @@
 {
   "project_info": {
-    "project_number": "842577736395",
-    "project_id": "micro-habits-c8247",
-    "storage_bucket": "micro-habits-c8247.firebasestorage.app"
+    "project_number": "838687299049",
+    "project_id": "edusync-hub-62d3c",
+    "storage_bucket": "edusync-hub-62d3c.firebasestorage.app"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:842577736395:android:a97a8448d308b00d3c614e",
+        "mobilesdk_app_id": "1:838687299049:android:0e2c8a87b7997067722778",
         "android_client_info": {
-          "package_name": "com.trillionclues.micro_habits"
+          "package_name": "com.trillionclues.edusync_hub"
         }
       },
       "oauth_client": [
         {
-          "client_id": "842577736395-5gg8lmu8i6pr1f6em97sh8isjhicve8p.apps.googleusercontent.com",
+          "client_id": "838687299049-5sp7bibrujushau2he830936bp8se1n0.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "com.trillionclues.micro_habits",
+            "package_name": "com.trillionclues.edusync_hub",
             "certificate_hash": "9b94e9e0dd641cad003c1c494f3832c894c74fe7"
           }
         },
         {
-          "client_id": "842577736395-an05bt0gqlv7kkb70kkq3b70lcpojap6.apps.googleusercontent.com",
+          "client_id": "838687299049-lsrrq5ofti95cnaqu3tn08rr29i5cbks.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyAE4OV69pRfvUoOXVU1Ek1UUS2tlN2uS2E"
+          "current_key": "AIzaSyBVO0ruE3JXwAAhIkGJgGl8VhM_ETx7e0k"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "842577736395-an05bt0gqlv7kkb70kkq3b70lcpojap6.apps.googleusercontent.com",
+              "client_id": "838687299049-lsrrq5ofti95cnaqu3tn08rr29i5cbks.apps.googleusercontent.com",
               "client_type": 3
             },
             {
-              "client_id": "842577736395-3h3d5hubh1t4s0rjhsgk609vgs9jbce9.apps.googleusercontent.com",
+              "client_id": "838687299049-p75uca9v5du78rev92n8342tv3a7kuqq.apps.googleusercontent.com",
               "client_type": 2,
               "ios_info": {
                 "bundle_id": "com.trillionclues.microHabits"

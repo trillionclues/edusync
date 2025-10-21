@@ -1,8 +1,21 @@
+import 'package:edusync_hub/app/app.dart';
+import 'package:edusync_hub/core/injection/injection_container.dart';
+import 'package:edusync_hub/core/utilities/logger.dart';
+import 'package:edusync_hub/firebase_options.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:micro_habits/app.dart';
-import 'package:micro_habits/bootstrap.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-Future<void> main() async {
-  final result = await Bootstrap.initialize();
-  runApp(App(dependencies: result.right));
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+
+  await configureDependencies();
+
+  setupLogger();
+
+  runApp(const ProviderScope(
+    child: EduSyncApp(),
+  ));
 }

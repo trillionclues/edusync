@@ -42,9 +42,9 @@ The app will work completely offline - no internet connection required!
     - Open Flutter DevTools in browser
 
 2. **Access Database:**
-    - The SQLite database file is located at: `[Documents]/micro_habits.sqlite`
+    - The SQLite database file is located at: `[Documents]/edusync_hub.sqlite`
     - On Android: `/data/data/com.trillionclues.micro_habits/app_flutter/micro_habits.sqlite`
-    - On iOS: `~/Documents/micro_habits.sqlite`
+    - On iOS: `~/Documents/edusync_hub.sqlite`
 
 3. **View with SQLite Browser:**
     - Use DB Browser for SQLite or similar tools

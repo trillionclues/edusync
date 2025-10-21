@@ -3,21 +3,23 @@
 <plist version="1.0">
 <dict>
 	<key>CLIENT_ID</key>
-	<string>842577736395-3h3d5hubh1t4s0rjhsgk609vgs9jbce9.apps.googleusercontent.com</string>
+	<string>838687299049-p75uca9v5du78rev92n8342tv3a7kuqq.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.842577736395-3h3d5hubh1t4s0rjhsgk609vgs9jbce9</string>
+	<string>com.googleusercontent.apps.838687299049-p75uca9v5du78rev92n8342tv3a7kuqq</string>
+	<key>ANDROID_CLIENT_ID</key>
+	<string>838687299049-5sp7bibrujushau2he830936bp8se1n0.apps.googleusercontent.com</string>
 	<key>API_KEY</key>
-	<string>AIzaSyBXUD-8Mo4jsMDtt1YwUsgkb89UPbTqZt0</string>
+	<string>AIzaSyCJ9CQYUd4vLZ8Twd0JeUf-_H-yhOhYLSA</string>
 	<key>GCM_SENDER_ID</key>
-	<string>842577736395</string>
+	<string>838687299049</string>
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
 	<string>com.trillionclues.microHabits</string>
 	<key>PROJECT_ID</key>
-	<string>micro-habits-c8247</string>
+	<string>edusync-hub-62d3c</string>
 	<key>STORAGE_BUCKET</key>
-	<string>micro-habits-c8247.firebasestorage.app</string>
+	<string>edusync-hub-62d3c.firebasestorage.app</string>
 	<key>IS_ADS_ENABLED</key>
 	<false></false>
 	<key>IS_ANALYTICS_ENABLED</key>
@@ -29,6 +31,6 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:842577736395:ios:6cddc6a6a2aee57a3c614e</string>
+	<string>1:838687299049:ios:ff395209c4902653722778</string>
 </dict>
 </plist>
