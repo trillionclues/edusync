@@ -13,7 +13,7 @@ class AppRouter {
   static final GoRouter router = GoRouter(initialLocation: '/splash', routes: [
     GoRoute(
       path: SplashPage.route,
-      name:AppRoute.splash.name,
+      name: AppRoute.splash.name,
       builder: (context, state) => const SplashPage(),
     ),
     GoRoute(

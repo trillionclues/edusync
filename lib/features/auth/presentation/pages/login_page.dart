@@ -1,6 +1,8 @@
 import 'package:edusync_hub/app/routes/route_paths.dart';
+import 'package:edusync_hub/core/providers/app_bar_provider.dart';
 import 'package:edusync_hub/core/widgets/buttons/app_buttons.dart';
 import 'package:edusync_hub/core/widgets/inputs/app_text_field.dart';
+import 'package:edusync_hub/core/widgets/layout/custom_app_bar.dart';
 import 'package:edusync_hub/core/widgets/layout/divider_with_text.dart';
 import 'package:edusync_hub/core/widgets/layout/section_header.dart';
 import 'package:edusync_hub/features/auth/presentation/provider/auth_providers.dart';
@@ -32,6 +34,14 @@ class _LoginPageState extends ConsumerState<LoginPage> {
   void initState() {
     super.initState();
     _isMounted = true;
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      ref.read(appBarProvider.notifier).updateAppBar(
+        title: 'Welcome Back',
+        showBackButton: false,
+        showAppBar: true,
+        actions: [],
+      );
+    });
   }
 
   @override
@@ -48,9 +58,9 @@ class _LoginPageState extends ConsumerState<LoginPage> {
       final password = _passwordController.text;
 
       ref.read(authNotifierProvider.notifier).signInWithEmail(
-        email: email,
-        password: password,
-      );
+            email: email,
+            password: password,
+          );
     }
   }
 
@@ -73,9 +83,8 @@ class _LoginPageState extends ConsumerState<LoginPage> {
 
     try {
       // Check if user needs additional details
-      final needsDetails = await ref
-          .read(authRepositoryProvider)
-          .needsAdditionalDetails(userId);
+      final needsDetails =
+          await ref.read(authRepositoryProvider).needsAdditionalDetails(userId);
 
       if (!_isMounted) return;
 
@@ -85,7 +94,6 @@ class _LoginPageState extends ConsumerState<LoginPage> {
         _safeNavigate(AppRoute.home.name);
       }
     } catch (e) {
-      // If Firestore fails, default to home
       if (_isMounted) {
         _safeNavigate(AppRoute.home.name);
       }
@@ -95,12 +103,11 @@ class _LoginPageState extends ConsumerState<LoginPage> {
   @override
   Widget build(BuildContext context) {
     final authState = ref.watch(authNotifierProvider);
+    final appBarState = ref.watch(appBarProvider);
 
-    // Listen for authentication success
     ref.listen(authNotifierProvider, (previous, next) {
       next.maybeWhen(
         authenticated: (user) {
-          // Don't await here - start the process and let it complete
           _handleAuthenticatedUser(user.id);
         },
         error: (failure) {
@@ -118,13 +125,14 @@ class _LoginPageState extends ConsumerState<LoginPage> {
     });
 
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Sign In'),
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back),
-          onPressed: () => context.pop(),
-        ),
-      ),
+      appBar: appBarState.showAppBar
+          ? CustomAppBar(
+              title: appBarState.title,
+              showBackButton: appBarState.showBackButton,
+              actions: appBarState.actions,
+              type: AppBarType.secondary,
+            )
+          : null,
       body: AuthForm(children: [
         const SectionHeader(
           title: 'Welcome to EduSync Hub',

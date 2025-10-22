@@ -35,6 +35,7 @@ Future<void> _registerManualDependencies() async {
 
   getIt.registerLazySingleton<firebase_auth.FirebaseAuth>(
       () => firebase_auth.FirebaseAuth.instance);
+
   getIt.registerLazySingleton<FirebaseFirestore>(
     () => FirebaseFirestore.instance,
   );
