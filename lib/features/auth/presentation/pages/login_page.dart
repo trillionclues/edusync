@@ -1,18 +1,11 @@
 import 'package:edusync_hub/app/routes/route_paths.dart';
 import 'package:edusync_hub/core/providers/app_bar_provider.dart';
-import 'package:edusync_hub/core/widgets/buttons/app_buttons.dart';
-import 'package:edusync_hub/core/widgets/inputs/app_text_field.dart';
-import 'package:edusync_hub/core/widgets/layout/custom_app_bar.dart';
-import 'package:edusync_hub/core/widgets/layout/divider_with_text.dart';
-import 'package:edusync_hub/core/widgets/layout/section_header.dart';
+import 'package:edusync_hub/core/themes/app_theme.dart';
 import 'package:edusync_hub/features/auth/presentation/provider/auth_providers.dart';
-import 'package:edusync_hub/features/auth/presentation/widgets/social_login_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
-
-import 'package:edusync_hub/app/routes/app_router.dart';
-import 'package:edusync_hub/features/auth/presentation/widgets/auth_form.dart';
 import 'package:edusync_hub/features/auth/presentation/provider/auth_notifier.dart';
 
 class LoginPage extends ConsumerStatefulWidget {
@@ -24,21 +17,43 @@ class LoginPage extends ConsumerStatefulWidget {
   ConsumerState<LoginPage> createState() => _LoginPageState();
 }
 
-class _LoginPageState extends ConsumerState<LoginPage> {
-  final _emailController = TextEditingController();
-  final _passwordController = TextEditingController();
-  final _formKey = GlobalKey<FormState>();
+class _LoginPageState extends ConsumerState<LoginPage>
+    with SingleTickerProviderStateMixin {
   bool _isMounted = false;
+  late AnimationController _animationController;
+  late Animation<double> _fadeAnimation;
+  late Animation<Offset> _slideAnimation;
 
   @override
   void initState() {
     super.initState();
     _isMounted = true;
+
+    _animationController = AnimationController(
+      duration: const Duration(milliseconds: 800),
+      vsync: this,
+    );
+
+    _fadeAnimation = CurvedAnimation(
+      parent: _animationController,
+      curve: Curves.easeIn,
+    );
+
+    _slideAnimation = Tween<Offset>(
+      begin: const Offset(0, 0.3),
+      end: Offset.zero,
+    ).animate(CurvedAnimation(
+      parent: _animationController,
+      curve: Curves.easeOutCubic,
+    ));
+
+    _animationController.forward();
+
     WidgetsBinding.instance.addPostFrameCallback((_) {
       ref.read(appBarProvider.notifier).updateAppBar(
-        title: 'Welcome Back',
+        title: '',
         showBackButton: false,
-        showAppBar: true,
+        showAppBar: false,
         actions: [],
       );
     });
@@ -47,75 +62,52 @@ class _LoginPageState extends ConsumerState<LoginPage> {
   @override
   void dispose() {
     _isMounted = false;
-    _emailController.dispose();
-    _passwordController.dispose();
+    _animationController.dispose();
     super.dispose();
   }
 
-  void _handleSignIn() {
-    if (_formKey.currentState?.validate() ?? false) {
-      final email = _emailController.text.trim();
-      final password = _passwordController.text;
-
-      ref.read(authNotifierProvider.notifier).signInWithEmail(
-            email: email,
-            password: password,
-          );
-    }
-  }
-
-  void _handleGoogleSignIn() {
+  void handleGoogleSignIn() {
     ref.read(authNotifierProvider.notifier).signInWithGoogle();
   }
 
-  void _safeNavigate(String routeName) {
-    if (_isMounted) {
-      WidgetsBinding.instance.addPostFrameCallback((_) {
-        if (_isMounted) {
-          context.goNamed(routeName);
-        }
-      });
-    }
+  void handleAppleSignIn() {
+    // ref.read(authNotifierProvider.notifier).signInWithApple();
   }
 
-  Future<void> _handleAuthenticatedUser(String userId) async {
+  void safeNavigate(String name) {
     if (!_isMounted) return;
 
-    try {
-      // Check if user needs additional details
-      final needsDetails =
-          await ref.read(authRepositoryProvider).needsAdditionalDetails(userId);
-
-      if (!_isMounted) return;
-
-      if (needsDetails) {
-        _safeNavigate(AppRoute.additionalDetails.name);
-      } else {
-        _safeNavigate(AppRoute.home.name);
-      }
-    } catch (e) {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
       if (_isMounted) {
-        _safeNavigate(AppRoute.home.name);
+        context.go(name);
       }
-    }
+    });
+  }
+
+  Future<void> handleSuccessfulLogin(String id) async {
+    safeNavigate(AppRoute.home.name);
   }
 
   @override
   Widget build(BuildContext context) {
-    final authState = ref.watch(authNotifierProvider);
-    final appBarState = ref.watch(appBarProvider);
+    final state = ref.watch(authNotifierProvider);
+    final theme = Theme.of(context);
+    final isDark = theme.brightness == Brightness.dark;
+    final screenHeight = MediaQuery.of(context).size.height;
 
-    ref.listen(authNotifierProvider, (previous, next) {
+    ref.listen(authNotifierProvider, (prev, next) {
       next.maybeWhen(
-        authenticated: (user) {
-          _handleAuthenticatedUser(user.id);
-        },
+        authenticated: (user) => handleSuccessfulLogin(user.id),
         error: (failure) {
           if (_isMounted) {
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(
                 content: Text(failure.message),
-                backgroundColor: Colors.red,
+                backgroundColor: Colors.red.shade400,
+                behavior: SnackBarBehavior.floating,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(8),
+                ),
               ),
             );
           }
@@ -125,94 +117,206 @@ class _LoginPageState extends ConsumerState<LoginPage> {
     });
 
     return Scaffold(
-      appBar: appBarState.showAppBar
-          ? CustomAppBar(
-              title: appBarState.title,
-              showBackButton: appBarState.showBackButton,
-              actions: appBarState.actions,
-              type: AppBarType.secondary,
-            )
-          : null,
-      body: AuthForm(children: [
-        const SectionHeader(
-          title: 'Welcome to EduSync Hub',
-          subtitle: 'Sign in to continue your learning journey',
-        ),
-        Form(
-          key: _formKey,
-          child: Column(
-            children: [
-              AppTextField(
-                controller: _emailController,
-                labelText: 'Email Address',
-                hintText: 'Enter your email',
-                keyboardType: TextInputType.emailAddress,
-                textInputAction: TextInputAction.next,
-                prefixIcon: const Icon(Icons.email_outlined),
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Please enter your email';
-                  }
-                  if (!RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$')
-                      .hasMatch(value)) {
-                    return 'Please enter a valid email';
-                  }
-                  return null;
-                },
-              ),
-              const SizedBox(height: 16),
-              AppTextField(
-                controller: _passwordController,
-                labelText: 'Password',
-                hintText: 'Enter your password',
-                obscureText: true,
-                textInputAction: TextInputAction.done,
-                prefixIcon: const Icon(Icons.lock_outline),
-                onSubmitted: (_) => _handleSignIn(),
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Please enter your password';
-                  }
-                  if (value.length < 6) {
-                    return 'Password must be at least 6 characters';
-                  }
-                  return null;
-                },
-              ),
-              const SizedBox(height: 24),
-              AppButton(
-                text: 'Sign In',
-                onPressed: _handleSignIn,
-                isLoading: authState.isLoading,
-              )
-            ],
+      body: SafeArea(
+        child: SingleChildScrollView(
+          padding: const EdgeInsets.symmetric(horizontal: 32),
+          child: SizedBox(
+            height: screenHeight -
+                MediaQuery.of(context).padding.top -
+                MediaQuery.of(context).padding.bottom - 40,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                SizedBox(height: screenHeight * 0.15),
+                FadeTransition(
+                  opacity: _fadeAnimation,
+                  child: SlideTransition(
+                    position: _slideAnimation,
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Container(
+                          height: 100,
+                          width: 100,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(24),
+                            gradient: const LinearGradient(
+                              begin: Alignment.topLeft,
+                              end: Alignment.bottomRight,
+                              colors: [
+                                AppTheme.primaryOrange,
+                                AppTheme.lightOrange,
+                              ],
+                            ),
+                          ),
+                          child: Center(
+                            child: Stack(
+                              clipBehavior: Clip.none,
+                              children: [
+                                const Icon(
+                                  Icons.school_rounded,
+                                  size: 50,
+                                  color: Colors.white,
+                                ),
+                                Positioned(
+                                  right: -4,
+                                  bottom: -4,
+                                  child: Container(
+                                    width: 16,
+                                    height: 16,
+                                    decoration: BoxDecoration(
+                                      color: Colors.white,
+                                      shape: BoxShape.circle,
+                                      border: Border.all(
+                                        color: AppTheme.primaryOrange,
+                                        width: 2,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                        const SizedBox(height: 24),
+                        Stack(
+                          clipBehavior: Clip.none,
+                          children: [
+                            Text(
+                              'edusync',
+                              style: theme.textTheme.headlineMedium?.copyWith(
+                                letterSpacing: -1,
+                              ),
+                            ),
+                            Positioned(
+                              right: -8,
+                              bottom: 6,
+                              child: Container(
+                                width: 8,
+                                height: 8,
+                                decoration: BoxDecoration(
+                                  color: theme.colorScheme.primary,
+                                  shape: BoxShape.circle,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                        const SizedBox(height: 10),
+                        Text(
+                          'Make learning addictive with AI games',
+                          textAlign: TextAlign.center,
+                          style: theme.textTheme.bodyMedium?.copyWith(
+                            color: theme.colorScheme.onBackground.withOpacity(0.7),
+                          ),
+                        ),
+                        const SizedBox(height: 48),
+                        SizedBox(
+                          width: double.infinity,
+                          child: ElevatedButton(
+                            onPressed: state.isLoading ? null : handleGoogleSignIn,
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: Colors.white,
+                              foregroundColor: Colors.black87,
+                              disabledBackgroundColor: Colors.grey.shade300,
+                              elevation: isDark ? 2 : 0,
+                              side: BorderSide(
+                                color: isDark
+                                    ? Colors.transparent
+                                    : Colors.grey.shade200,
+                                width: 1,
+                              ),
+                            ),
+                            child: state.isLoading
+                                ? SizedBox(
+                              height: 20,
+                              width: 20,
+                              child: CircularProgressIndicator(
+                                strokeWidth: 2,
+                                valueColor: AlwaysStoppedAnimation<Color>(
+                                  theme.colorScheme.primary,
+                                ),
+                              ),
+                            )
+                                : Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                SvgPicture.asset(
+                                  'assets/icons/google.svg',
+                                  height: 22,
+                                  width: 22,
+                                  errorBuilder: (_, __, ___) => const Icon(
+                                    Icons.g_mobiledata,
+                                    size: 28,
+                                    color: Colors.black87,
+                                  ),
+                                ),
+                                const SizedBox(width: 12),
+                                const Text(
+                                  'Continue with Google',
+                                  style: TextStyle(
+                                    fontSize: 15,
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                        const SizedBox(height: 14),
+                        SizedBox(
+                          width: double.infinity,
+                          child: ElevatedButton(
+                            onPressed: state.isLoading ? null : handleAppleSignIn,
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: theme.colorScheme.onBackground,
+                              foregroundColor: theme.colorScheme.background,
+                              disabledBackgroundColor: isDark
+                                  ? Colors.grey.shade300
+                                  : Colors.grey.shade700,
+                              elevation: isDark ? 2 : 0,
+                            ),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Icon(
+                                  Icons.apple,
+                                  size: 24,
+                                  color: theme.colorScheme.background,
+                                ),
+                                const SizedBox(width: 12),
+                                Text(
+                                  'Continue with Apple',
+                                  style: TextStyle(
+                                    fontSize: 15,
+                                    fontWeight: FontWeight.w600,
+                                    color: theme.colorScheme.background,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+
+                        const SizedBox(height: 30),
+                        Text(
+                          'By continuing, you agree to our Terms of Service and Privacy Policy.',
+                          textAlign: TextAlign.center,
+                          style: theme.textTheme.bodySmall?.copyWith(
+                            fontSize: 12,
+                            color: theme.colorScheme.onBackground.withOpacity(0.4),
+                            height: 1.4,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
-        const DividerWithText(text: 'OR'),
-        SocialLoginButton(
-          type: SocialLoginType.google,
-          onPressed: _handleGoogleSignIn,
-          isLoading: authState.isLoading,
-        ),
-        const SizedBox(height: 24),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            const Text("Don't have an account?"),
-            TextButton(
-              onPressed: () => AppRouter.router.goNamed('/signup'),
-              child: const Text('Sign Up'),
-            ),
-          ],
-        ),
-        const SizedBox(height: 16),
-        TextButton(
-          onPressed: () {
-            // TODO: Navigate to forgot password
-          },
-          child: const Text('Forgot Password?'),
-        )
-      ]),
+      ),
     );
   }
 }
