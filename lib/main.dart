@@ -1,10 +1,10 @@
-import 'package:edusync_hub/app/app.dart';
-import 'package:edusync_hub/core/injection/injection_container.dart';
-import 'package:edusync_hub/core/utilities/logger.dart';
-import 'package:edusync_hub/firebase_options.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:glypha/app/app.dart';
+import 'package:glypha/core/injection/injection_container.dart';
+import 'package:glypha/core/utilities/logger.dart';
+import 'package:glypha/firebase_options.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -16,6 +16,6 @@ void main() async {
   setupLogger();
 
   runApp(const ProviderScope(
-    child: EduSyncApp(),
+    child: GlyphaApp(),
   ));
 }

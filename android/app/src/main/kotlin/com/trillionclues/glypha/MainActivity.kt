@@ -1,4 +1,4 @@
-package com.trillionclues.edusync_hub
+package com.trillionclues.glypha
 
 import io.flutter.embedding.android.FlutterActivity
 

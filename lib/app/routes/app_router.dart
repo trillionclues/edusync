@@ -1,11 +1,11 @@
-import 'package:edusync_hub/app/routes/route_paths.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:glypha/app/routes/route_paths.dart';
+import 'package:glypha/features/auth/presentation/pages/additional_details_page.dart';
+import 'package:glypha/features/auth/presentation/pages/login_page.dart';
+import 'package:glypha/features/home/presentation/pages/home_page.dart';
+import 'package:glypha/features/splash/presentation/pages/splash_page.dart';
 import 'package:go_router/go_router.dart';
 
-import 'package:edusync_hub/features/splash/presentation/pages/splash_page.dart';
-import 'package:edusync_hub/features/auth/presentation/pages/login_page.dart';
-import 'package:edusync_hub/features/auth/presentation/pages/additional_details_page.dart';
-import 'package:edusync_hub/features/home/presentation/pages/home_page.dart';
 
 final RouteObserver<ModalRoute> routeObserver = RouteObserver<ModalRoute>();
 

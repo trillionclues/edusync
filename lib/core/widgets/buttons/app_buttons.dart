@@ -94,7 +94,7 @@ class AppButton extends StatelessWidget {
             borderRadius: BorderRadius.circular(8),
           ),
         ).copyWith(
-          overlayColor: MaterialStateProperty.all(
+          overlayColor: WidgetStateProperty.all(
             theme.primaryColor.withOpacity(0.1),
           ),
         );

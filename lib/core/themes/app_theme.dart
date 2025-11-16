@@ -186,49 +186,49 @@ class AppTheme {
             fontWeight: FontWeight.bold,
             color: darkText,
           ),
-          displayMedium: TextStyle(
+          displayMedium: const TextStyle(
             fontSize: 45,
             fontWeight: FontWeight.bold,
             color: darkText,
           ),
-          displaySmall: TextStyle(
+          displaySmall:const TextStyle(
             fontSize: 36,
             fontWeight: FontWeight.bold,
             color: darkText,
           ),
-          headlineLarge: TextStyle(
+          headlineLarge:const TextStyle(
             fontSize: 32,
             fontWeight: FontWeight.bold,
             letterSpacing: -0.5,
             color: darkText,
           ),
-          headlineMedium: TextStyle(
+          headlineMedium:const TextStyle(
             fontSize: 28,
             fontWeight: FontWeight.bold,
             letterSpacing: -0.5,
             color: darkText,
           ),
-          headlineSmall: TextStyle(
+          headlineSmall:const TextStyle(
             fontSize: 24,
             fontWeight: FontWeight.w600,
             color: darkText,
           ),
-          titleLarge: TextStyle(
+          titleLarge: const TextStyle(
             fontSize: 22,
             fontWeight: FontWeight.w600,
             color: darkText,
           ),
-          titleMedium: TextStyle(
+          titleMedium:const TextStyle(
             fontSize: 16,
             fontWeight: FontWeight.w600,
             color: darkText,
           ),
-          titleSmall: TextStyle(
+          titleSmall:const TextStyle(
             fontSize: 14,
             fontWeight: FontWeight.w600,
             color: darkText,
           ),
-          bodyLarge: TextStyle(
+          bodyLarge:const TextStyle(
             fontSize: 16,
             height: 1.5,
             color: darkText,
@@ -243,7 +243,7 @@ class AppTheme {
             height: 1.5,
             color: darkText.withOpacity(0.7),
           ),
-          labelLarge: TextStyle(
+          labelLarge:const TextStyle(
             fontSize: 14,
             fontWeight: FontWeight.w600,
             color: darkText,

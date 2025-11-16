@@ -1,10 +1,9 @@
-import 'package:edusync_hub/core/providers/app_bar_provider.dart';
-import 'package:edusync_hub/core/widgets/layout/custom_app_bar.dart';
-import 'package:edusync_hub/core/widgets/layout/custom_bottom_navigation.dart';
-import 'package:edusync_hub/features/auth/presentation/provider/auth_notifier.dart';
-import 'package:edusync_hub/features/auth/presentation/provider/auth_providers.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:glypha/core/providers/app_bar_provider.dart';
+import 'package:glypha/core/widgets/layout/custom_app_bar.dart';
+import 'package:glypha/core/widgets/layout/custom_bottom_navigation.dart';
 
 class HomePage extends ConsumerStatefulWidget {
   const HomePage({super.key});
@@ -27,7 +26,6 @@ class _HomePageState extends ConsumerState<HomePage> {
   @override
   Widget build(BuildContext context) {
     final appBarState = ref.watch(appBarProvider);
-    final authState = ref.watch(authRepositoryProvider);
 
     return Scaffold(
       appBar: CustomAppBar(
@@ -40,11 +38,11 @@ class _HomePageState extends ConsumerState<HomePage> {
             },
           ),
         ),
-        titleWidget: Row(
+        titleWidget: const Row(
           children: [
             Text(
               'Today\'s Class',
-              style: const TextStyle(
+              style: TextStyle(
                 fontSize: 18,
                 fontWeight: FontWeight.w600,
               ),

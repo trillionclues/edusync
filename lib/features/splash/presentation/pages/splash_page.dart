@@ -1,8 +1,8 @@
-import 'package:edusync_hub/app/routes/route_paths.dart';
-import 'package:edusync_hub/features/auth/presentation/provider/auth_notifier.dart';
-import 'package:edusync_hub/features/auth/presentation/provider/auth_providers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:glypha/app/routes/route_paths.dart';
+import 'package:glypha/features/auth/presentation/provider/auth_notifier.dart';
+import 'package:glypha/features/auth/presentation/provider/auth_providers.dart';
 import 'package:go_router/go_router.dart';
 
 class SplashPage extends ConsumerStatefulWidget {
@@ -71,7 +71,6 @@ class _SplashPageState extends ConsumerState<SplashPage>
 
   @override
   Widget build(BuildContext context) {
-    final authState = ref.watch(authNotifierProvider);
     final theme = Theme.of(context);
 
     ref.listen(authNotifierProvider, (previous, next) async {
@@ -79,13 +78,14 @@ class _SplashPageState extends ConsumerState<SplashPage>
 
       next.whenOrNull(
         authenticated: (user) async {
-          final authRepo = ref.read(authRepositoryProvider);
-          final needsDetails = await authRepo.needsAdditionalDetails(user.id);
+          final needsDetails = await ref.read(
+            needsAdditionalDetailsProvider(user.id).future,
+          );
 
           if (needsDetails) {
-            context.goNamed(AppRoute.additionalDetails.name);
+            if (mounted) context.goNamed(AppRoute.additionalDetails.name);
           } else {
-            context.goNamed(AppRoute.home.name);
+            if (mounted) context.goNamed(AppRoute.home.name);
           }
         },
         unauthenticated: () => context.goNamed(AppRoute.login.name),
@@ -109,7 +109,7 @@ class _SplashPageState extends ConsumerState<SplashPage>
                   clipBehavior: Clip.none,
                   children: [
                     Text(
-                      'edusync',
+                      'glypha',
                       style: TextStyle(
                         fontSize: 48,
                         fontWeight: FontWeight.w600,

@@ -1,6 +1,7 @@
-import 'package:edusync_hub/core/widgets/layout/custom_app_bar.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:glypha/core/widgets/layout/custom_app_bar.dart';
 
 final appBarProvider =
     StateNotifierProvider<AppBarNotifier, AppBarState>((ref) {

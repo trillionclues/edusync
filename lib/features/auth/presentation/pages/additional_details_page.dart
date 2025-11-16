@@ -1,6 +1,7 @@
-import 'package:edusync_hub/app/routes/route_paths.dart';
-import 'package:edusync_hub/core/widgets/buttons/app_buttons.dart';
+
 import 'package:flutter/material.dart';
+import 'package:glypha/app/routes/route_paths.dart';
+import 'package:glypha/core/widgets/buttons/app_buttons.dart';
 import 'package:go_router/go_router.dart';
 
 class AdditionalDetailsPage extends StatelessWidget {
@@ -18,13 +19,13 @@ class AdditionalDetailsPage extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text('This is the Additional Details Page'),
+            const Text('This is the Additional Details Page'),
             //   button to contunue to homepage
-            SizedBox(
+            const SizedBox(
               height: 20,
             ),
             AppButton(
-                text: "Go to home",
+                text: 'Go to home',
                 onPressed: () {
                   context.goNamed(AppRoute.home.name);
                 },

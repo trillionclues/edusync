@@ -19,7 +19,7 @@ mixin _$AuthState {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
-    required TResult Function() loading,
+    required TResult Function(LoginProvider provider) loading,
     required TResult Function(UserEntity user) authenticated,
     required TResult Function() unauthenticated,
     required TResult Function(AuthFailure failure) error,
@@ -28,7 +28,7 @@ mixin _$AuthState {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
-    TResult? Function()? loading,
+    TResult? Function(LoginProvider provider)? loading,
     TResult? Function(UserEntity user)? authenticated,
     TResult? Function()? unauthenticated,
     TResult? Function(AuthFailure failure)? error,
@@ -37,7 +37,7 @@ mixin _$AuthState {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
-    TResult Function()? loading,
+    TResult Function(LoginProvider provider)? loading,
     TResult Function(UserEntity user)? authenticated,
     TResult Function()? unauthenticated,
     TResult Function(AuthFailure failure)? error,
@@ -136,7 +136,7 @@ class _$InitialImpl extends _Initial {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
-    required TResult Function() loading,
+    required TResult Function(LoginProvider provider) loading,
     required TResult Function(UserEntity user) authenticated,
     required TResult Function() unauthenticated,
     required TResult Function(AuthFailure failure) error,
@@ -148,7 +148,7 @@ class _$InitialImpl extends _Initial {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
-    TResult? Function()? loading,
+    TResult? Function(LoginProvider provider)? loading,
     TResult? Function(UserEntity user)? authenticated,
     TResult? Function()? unauthenticated,
     TResult? Function(AuthFailure failure)? error,
@@ -160,7 +160,7 @@ class _$InitialImpl extends _Initial {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
-    TResult Function()? loading,
+    TResult Function(LoginProvider provider)? loading,
     TResult Function(UserEntity user)? authenticated,
     TResult Function()? unauthenticated,
     TResult Function(AuthFailure failure)? error,
@@ -223,6 +223,8 @@ abstract class _$$LoadingImplCopyWith<$Res> {
   factory _$$LoadingImplCopyWith(
           _$LoadingImpl value, $Res Function(_$LoadingImpl) then) =
       __$$LoadingImplCopyWithImpl<$Res>;
+  @useResult
+  $Res call({LoginProvider provider});
 }
 
 /// @nodoc
@@ -235,63 +237,90 @@ class __$$LoadingImplCopyWithImpl<$Res>
 
   /// Create a copy of AuthState
   /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? provider = null,
+  }) {
+    return _then(_$LoadingImpl(
+      provider: null == provider
+          ? _value.provider
+          : provider // ignore: cast_nullable_to_non_nullable
+              as LoginProvider,
+    ));
+  }
 }
 
 /// @nodoc
 
 class _$LoadingImpl extends _Loading {
-  const _$LoadingImpl() : super._();
+  const _$LoadingImpl({this.provider = LoginProvider.none}) : super._();
+
+  @override
+  @JsonKey()
+  final LoginProvider provider;
 
   @override
   String toString() {
-    return 'AuthState.loading()';
+    return 'AuthState.loading(provider: $provider)';
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
-        (other.runtimeType == runtimeType && other is _$LoadingImpl);
+        (other.runtimeType == runtimeType &&
+            other is _$LoadingImpl &&
+            (identical(other.provider, provider) ||
+                other.provider == provider));
   }
 
   @override
-  int get hashCode => runtimeType.hashCode;
+  int get hashCode => Object.hash(runtimeType, provider);
+
+  /// Create a copy of AuthState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$LoadingImplCopyWith<_$LoadingImpl> get copyWith =>
+      __$$LoadingImplCopyWithImpl<_$LoadingImpl>(this, _$identity);
 
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
-    required TResult Function() loading,
+    required TResult Function(LoginProvider provider) loading,
     required TResult Function(UserEntity user) authenticated,
     required TResult Function() unauthenticated,
     required TResult Function(AuthFailure failure) error,
   }) {
-    return loading();
+    return loading(provider);
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
-    TResult? Function()? loading,
+    TResult? Function(LoginProvider provider)? loading,
     TResult? Function(UserEntity user)? authenticated,
     TResult? Function()? unauthenticated,
     TResult? Function(AuthFailure failure)? error,
   }) {
-    return loading?.call();
+    return loading?.call(provider);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
-    TResult Function()? loading,
+    TResult Function(LoginProvider provider)? loading,
     TResult Function(UserEntity user)? authenticated,
     TResult Function()? unauthenticated,
     TResult Function(AuthFailure failure)? error,
     required TResult orElse(),
   }) {
     if (loading != null) {
-      return loading();
+      return loading(provider);
     }
     return orElse();
   }
@@ -338,8 +367,16 @@ class _$LoadingImpl extends _Loading {
 }
 
 abstract class _Loading extends AuthState {
-  const factory _Loading() = _$LoadingImpl;
+  const factory _Loading({final LoginProvider provider}) = _$LoadingImpl;
   const _Loading._() : super._();
+
+  LoginProvider get provider;
+
+  /// Create a copy of AuthState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$LoadingImplCopyWith<_$LoadingImpl> get copyWith =>
+      throw _privateConstructorUsedError;
 }
 
 /// @nodoc
@@ -423,7 +460,7 @@ class _$AuthenticatedImpl extends _Authenticated {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
-    required TResult Function() loading,
+    required TResult Function(LoginProvider provider) loading,
     required TResult Function(UserEntity user) authenticated,
     required TResult Function() unauthenticated,
     required TResult Function(AuthFailure failure) error,
@@ -435,7 +472,7 @@ class _$AuthenticatedImpl extends _Authenticated {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
-    TResult? Function()? loading,
+    TResult? Function(LoginProvider provider)? loading,
     TResult? Function(UserEntity user)? authenticated,
     TResult? Function()? unauthenticated,
     TResult? Function(AuthFailure failure)? error,
@@ -447,7 +484,7 @@ class _$AuthenticatedImpl extends _Authenticated {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
-    TResult Function()? loading,
+    TResult Function(LoginProvider provider)? loading,
     TResult Function(UserEntity user)? authenticated,
     TResult Function()? unauthenticated,
     TResult Function(AuthFailure failure)? error,
@@ -555,7 +592,7 @@ class _$UnauthenticatedImpl extends _Unauthenticated {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
-    required TResult Function() loading,
+    required TResult Function(LoginProvider provider) loading,
     required TResult Function(UserEntity user) authenticated,
     required TResult Function() unauthenticated,
     required TResult Function(AuthFailure failure) error,
@@ -567,7 +604,7 @@ class _$UnauthenticatedImpl extends _Unauthenticated {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
-    TResult? Function()? loading,
+    TResult? Function(LoginProvider provider)? loading,
     TResult? Function(UserEntity user)? authenticated,
     TResult? Function()? unauthenticated,
     TResult? Function(AuthFailure failure)? error,
@@ -579,7 +616,7 @@ class _$UnauthenticatedImpl extends _Unauthenticated {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
-    TResult Function()? loading,
+    TResult Function(LoginProvider provider)? loading,
     TResult Function(UserEntity user)? authenticated,
     TResult Function()? unauthenticated,
     TResult Function(AuthFailure failure)? error,
@@ -718,7 +755,7 @@ class _$ErrorImpl extends _Error {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
-    required TResult Function() loading,
+    required TResult Function(LoginProvider provider) loading,
     required TResult Function(UserEntity user) authenticated,
     required TResult Function() unauthenticated,
     required TResult Function(AuthFailure failure) error,
@@ -730,7 +767,7 @@ class _$ErrorImpl extends _Error {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
-    TResult? Function()? loading,
+    TResult? Function(LoginProvider provider)? loading,
     TResult? Function(UserEntity user)? authenticated,
     TResult? Function()? unauthenticated,
     TResult? Function(AuthFailure failure)? error,
@@ -742,7 +779,7 @@ class _$ErrorImpl extends _Error {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
-    TResult Function()? loading,
+    TResult Function(LoginProvider provider)? loading,
     TResult Function(UserEntity user)? authenticated,
     TResult Function()? unauthenticated,
     TResult Function(AuthFailure failure)? error,

@@ -17,80 +17,75 @@ class SocialLoginButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return OutlinedButton(
-      onPressed: isLoading ? null : onPressed,
-      style: OutlinedButton.styleFrom(
-        backgroundColor: Colors.white,
-        foregroundColor: _getTextColor(),
-        side: BorderSide(color: Colors.grey.shade300),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(8),
+    final theme = Theme.of(context);
+    final isApple = type == SocialLoginType.apple;
+
+    return SizedBox(
+      width: double.infinity,
+      child: ElevatedButton(
+        onPressed: isLoading ? null : onPressed,
+        style: ElevatedButton.styleFrom(
+          backgroundColor: isApple ? theme.colorScheme.onBackground : Colors.white,
+          foregroundColor: isApple ? theme.colorScheme.background : Colors.black87,
+          disabledBackgroundColor: Colors.grey.shade300,
+          elevation: 0,
+          side: isApple
+              ? BorderSide.none
+              : BorderSide(color: Colors.grey.shade200, width: 1),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(14),
+          ),
+          padding: const EdgeInsets.symmetric(vertical: 14),
         ),
-        padding: const EdgeInsets.symmetric(vertical: 12),
-      ),
-      child: isLoading
-          ? SizedBox(
-              width: 20,
-              height: 20,
-              child: CircularProgressIndicator(
-                strokeWidth: 2,
-                color: _getTextColor(),
-              ),
-            )
-          : Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                SvgPicture.asset(
-                  _getIconPath(),
-                  width: 20,
-                  height: 20,
-                  colorFilter: _getColorFilter(),
-                ),
-                const SizedBox(width: 12),
-                Text(
-                  _getButtonText(),
-                  style: const TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.w500,
-                  ),
-                ),
-              ],
+        child: isLoading
+            ? SizedBox(
+          height: 20,
+          width: 20,
+          child: CircularProgressIndicator(
+            strokeWidth: 2,
+            valueColor: AlwaysStoppedAnimation<Color>(
+              isApple ? theme.colorScheme.background : Colors.black87,
             ),
+          ),
+        )
+            : Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            _buildIcon(isApple, theme),
+            const SizedBox(width: 12),
+            Text(
+              _getButtonText(),
+              style: TextStyle(
+                fontSize: 15,
+                fontWeight: FontWeight.w600,
+                color: isApple
+                    ? theme.colorScheme.background
+                    : Colors.black87,
+              ),
+            ),
+          ],
+        ),
+      ),
     );
   }
 
-  String _getIconPath() {
-    switch (type) {
-      case SocialLoginType.google:
-        return 'assets/icons/google.svg';
-      case SocialLoginType.apple:
-        return 'assets/icons/apple.svg';
-    }
+  Widget _buildIcon(bool isApple, ThemeData theme) {
+    return type == SocialLoginType.google
+        ? SvgPicture.asset(
+      'assets/icons/google.svg',
+      height: 22,
+      width: 22,
+    )
+        : Icon(
+      Icons.apple,
+      size: 22,
+      color: theme.colorScheme.background,
+    );
   }
 
   String _getButtonText() {
-    switch (type) {
-      case SocialLoginType.google:
-        return 'Continue with Google';
-      case SocialLoginType.apple:
-        return 'Continue with Apple';
-    }
-  }
-
-  Color _getTextColor() {
-    switch (type) {
-      case SocialLoginType.google:
-        return Colors.black;
-      case SocialLoginType.apple:
-        return Colors.black;
-    }
-  }
-
-  ColorFilter? _getColorFilter() {
-    switch (type) {
-      case SocialLoginType.google:
-      case SocialLoginType.apple:
-        return null;
-    }
+    return type == SocialLoginType.google
+        ? 'Continue with Google'
+        : 'Continue with Apple';
   }
 }

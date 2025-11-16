@@ -7,17 +7,17 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:838687299049:android:0e2c8a87b7997067722778",
+        "mobilesdk_app_id": "1:838687299049:android:a6fb5d60ff217832722778",
         "android_client_info": {
-          "package_name": "com.trillionclues.edusync_hub"
+          "package_name": "com.trillionclues.glypha"
         }
       },
       "oauth_client": [
         {
-          "client_id": "838687299049-5sp7bibrujushau2he830936bp8se1n0.apps.googleusercontent.com",
+          "client_id": "838687299049-71237v95dhrghjeob4h4lfvholl4q78e.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "com.trillionclues.edusync_hub",
+            "package_name": "com.trillionclues.glypha",
             "certificate_hash": "9b94e9e0dd641cad003c1c494f3832c894c74fe7"
           }
         },

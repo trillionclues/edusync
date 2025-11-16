@@ -1,4 +1,4 @@
-# Micro Habits MVP
+# glypha MVP
 
 A Flutter package for tracking daily micro habits with offline-first architecture using BLoC, Drift (SQLite), and Hive.
 
@@ -42,9 +42,9 @@ The app will work completely offline - no internet connection required!
     - Open Flutter DevTools in browser
 
 2. **Access Database:**
-    - The SQLite database file is located at: `[Documents]/edusync_hub.sqlite`
+    - The SQLite database file is located at: `[Documents]/glypha.sqlite`
     - On Android: `/data/data/com.trillionclues.micro_habits/app_flutter/micro_habits.sqlite`
-    - On iOS: `~/Documents/edusync_hub.sqlite`
+    - On iOS: `~/Documents/glyphas.sqlite`
 
 3. **View with SQLite Browser:**
     - Use DB Browser for SQLite or similar tools

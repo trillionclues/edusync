@@ -51,7 +51,7 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions android = FirebaseOptions(
     apiKey: 'AIzaSyBVO0ruE3JXwAAhIkGJgGl8VhM_ETx7e0k',
-    appId: '1:838687299049:android:0e2c8a87b7997067722778',
+    appId: '1:838687299049:android:a6fb5d60ff217832722778',
     messagingSenderId: '838687299049',
     projectId: 'edusync-hub-62d3c',
     storageBucket: 'edusync-hub-62d3c.firebasestorage.app',
@@ -59,10 +59,13 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions ios = FirebaseOptions(
     apiKey: 'AIzaSyCJ9CQYUd4vLZ8Twd0JeUf-_H-yhOhYLSA',
-    appId: '1:838687299049:ios:ff395209c4902653722778',
+    appId: '1:838687299049:ios:c1ddc83fedcd121c722778',
     messagingSenderId: '838687299049',
     projectId: 'edusync-hub-62d3c',
     storageBucket: 'edusync-hub-62d3c.firebasestorage.app',
-    iosBundleId: 'com.trillionclues.microHabits',
+    androidClientId: '838687299049-5sp7bibrujushau2he830936bp8se1n0.apps.googleusercontent.com',
+    iosClientId: '838687299049-s4v3crs0rtdato6fbcbic9n5fj6gn1le.apps.googleusercontent.com',
+    iosBundleId: 'com.trillionclues.glypha',
   );
+
 }

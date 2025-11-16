@@ -14,8 +14,8 @@ final getIt = GetIt.instance;
   initializerName: r'$initGetIt',
   preferRelativeImports: true,
   asExtension: false,
-  ignoreUnregisteredTypes: [Dio],
 )
+
 Future<void> configureDependencies() async {
   await _registerManualDependencies();
   $initGetIt(getIt);

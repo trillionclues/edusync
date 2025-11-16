@@ -1,12 +1,12 @@
-import 'package:edusync_hub/app/routes/route_paths.dart';
-import 'package:edusync_hub/core/providers/app_bar_provider.dart';
-import 'package:edusync_hub/core/themes/app_theme.dart';
-import 'package:edusync_hub/features/auth/presentation/provider/auth_providers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_svg/flutter_svg.dart';
+import 'package:glypha/app/routes/route_paths.dart';
+import 'package:glypha/core/providers/app_bar_provider.dart';
+import 'package:glypha/core/themes/app_theme.dart';
+import 'package:glypha/features/auth/presentation/provider/auth_notifier.dart';
+import 'package:glypha/features/auth/presentation/provider/auth_state.dart';
+import 'package:glypha/features/auth/presentation/widgets/social_login_button.dart';
 import 'package:go_router/go_router.dart';
-import 'package:edusync_hub/features/auth/presentation/provider/auth_notifier.dart';
 
 class LoginPage extends ConsumerStatefulWidget {
   const LoginPage({super.key});
@@ -71,7 +71,7 @@ class _LoginPageState extends ConsumerState<LoginPage>
   }
 
   void handleAppleSignIn() {
-    // ref.read(authNotifierProvider.notifier).signInWithApple();
+    ref.read(authNotifierProvider.notifier).signInWithApple();
   }
 
   void safeNavigate(String name) {
@@ -92,7 +92,6 @@ class _LoginPageState extends ConsumerState<LoginPage>
   Widget build(BuildContext context) {
     final state = ref.watch(authNotifierProvider);
     final theme = Theme.of(context);
-    final isDark = theme.brightness == Brightness.dark;
     final screenHeight = MediaQuery.of(context).size.height;
 
     ref.listen(authNotifierProvider, (prev, next) {
@@ -123,7 +122,8 @@ class _LoginPageState extends ConsumerState<LoginPage>
           child: SizedBox(
             height: screenHeight -
                 MediaQuery.of(context).padding.top -
-                MediaQuery.of(context).padding.bottom - 40,
+                MediaQuery.of(context).padding.bottom -
+                40,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -183,7 +183,7 @@ class _LoginPageState extends ConsumerState<LoginPage>
                           clipBehavior: Clip.none,
                           children: [
                             Text(
-                              'edusync',
+                              'glypha',
                               style: theme.textTheme.headlineMedium?.copyWith(
                                 letterSpacing: -1,
                               ),
@@ -207,104 +207,35 @@ class _LoginPageState extends ConsumerState<LoginPage>
                           'Make learning addictive with AI games',
                           textAlign: TextAlign.center,
                           style: theme.textTheme.bodyMedium?.copyWith(
-                            color: theme.colorScheme.onBackground.withOpacity(0.7),
+                            color:
+                                theme.colorScheme.onBackground.withOpacity(0.7),
                           ),
                         ),
                         const SizedBox(height: 48),
                         SizedBox(
-                          width: double.infinity,
-                          child: ElevatedButton(
-                            onPressed: state.isLoading ? null : handleGoogleSignIn,
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: Colors.white,
-                              foregroundColor: Colors.black87,
-                              disabledBackgroundColor: Colors.grey.shade300,
-                              elevation: isDark ? 2 : 0,
-                              side: BorderSide(
-                                color: isDark
-                                    ? Colors.transparent
-                                    : Colors.grey.shade200,
-                                width: 1,
-                              ),
-                            ),
-                            child: state.isLoading
-                                ? SizedBox(
-                              height: 20,
-                              width: 20,
-                              child: CircularProgressIndicator(
-                                strokeWidth: 2,
-                                valueColor: AlwaysStoppedAnimation<Color>(
-                                  theme.colorScheme.primary,
-                                ),
-                              ),
-                            )
-                                : Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                SvgPicture.asset(
-                                  'assets/icons/google.svg',
-                                  height: 22,
-                                  width: 22,
-                                  errorBuilder: (_, __, ___) => const Icon(
-                                    Icons.g_mobiledata,
-                                    size: 28,
-                                    color: Colors.black87,
-                                  ),
-                                ),
-                                const SizedBox(width: 12),
-                                const Text(
-                                  'Continue with Google',
-                                  style: TextStyle(
-                                    fontSize: 15,
-                                    fontWeight: FontWeight.w600,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
+                            width: double.infinity,
+                            child: SocialLoginButton(
+                              type: SocialLoginType.google,
+                              isLoading: state.isLoadingProvider(LoginProvider.google),
+                              onPressed: handleGoogleSignIn,
+                            )),
                         const SizedBox(height: 14),
                         SizedBox(
                           width: double.infinity,
-                          child: ElevatedButton(
-                            onPressed: state.isLoading ? null : handleAppleSignIn,
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: theme.colorScheme.onBackground,
-                              foregroundColor: theme.colorScheme.background,
-                              disabledBackgroundColor: isDark
-                                  ? Colors.grey.shade300
-                                  : Colors.grey.shade700,
-                              elevation: isDark ? 2 : 0,
-                            ),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Icon(
-                                  Icons.apple,
-                                  size: 24,
-                                  color: theme.colorScheme.background,
-                                ),
-                                const SizedBox(width: 12),
-                                Text(
-                                  'Continue with Apple',
-                                  style: TextStyle(
-                                    fontSize: 15,
-                                    fontWeight: FontWeight.w600,
-                                    color: theme.colorScheme.background,
-                                  ),
-                                ),
-                              ],
-                            ),
+                          child: SocialLoginButton(
+                            type: SocialLoginType.apple,
+                            isLoading: state.isLoadingProvider(LoginProvider.apple),
+                            onPressed: handleAppleSignIn,
                           ),
                         ),
-
                         const SizedBox(height: 30),
                         Text(
                           'By continuing, you agree to our Terms of Service and Privacy Policy.',
                           textAlign: TextAlign.center,
                           style: theme.textTheme.bodySmall?.copyWith(
                             fontSize: 12,
-                            color: theme.colorScheme.onBackground.withOpacity(0.4),
+                            color:
+                                theme.colorScheme.onBackground.withOpacity(0.4),
                             height: 1.4,
                           ),
                         ),

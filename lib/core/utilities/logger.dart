@@ -1,4 +1,4 @@
-import 'package:edusync_hub/core/injection/injection_container.dart';
+import 'package:glypha/core/injection/injection_container.dart';
 import 'package:logger/logger.dart';
 
 Logger get log => getIt<Logger>();

@@ -15,14 +15,14 @@ class Either<L, R> {
 
   L get left {
     if (_left == null) {
-      throw StateError("Called left on a right value");
+      throw StateError('Called left on a right value');
     }
     return _left!;
   }
 
   R get right {
     if (_right == null) {
-      throw StateError("Called right on a left value");
+      throw StateError('Called right on a left value');
     }
     return _right!;
   }

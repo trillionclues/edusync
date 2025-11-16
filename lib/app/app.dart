@@ -1,13 +1,12 @@
-import 'package:edusync_hub/app/routes/app_router.dart';
-import 'package:edusync_hub/core/providers/theme_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:glypha/app/routes/app_router.dart';
+import 'package:glypha/core/providers/theme_provider.dart';
+import 'package:glypha/core/themes/app_theme.dart';
 
-import 'package:edusync_hub/core/themes/app_theme.dart';
-
-class EduSyncApp extends ConsumerWidget {
-  const EduSyncApp({super.key});
+class GlyphaApp extends ConsumerWidget {
+  const GlyphaApp({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -19,7 +18,7 @@ class EduSyncApp extends ConsumerWidget {
       splitScreenMode: true,
       builder: (_, child) {
         return MaterialApp.router(
-          title: 'EduSync',
+          title: 'Glypha',
           theme: AppTheme.lightTheme,
           darkTheme: AppTheme.darkTheme,
           themeMode: themeMode,
@@ -27,7 +26,7 @@ class EduSyncApp extends ConsumerWidget {
           debugShowCheckedModeBanner: false,
           builder: (context, widget) {
             return MediaQuery(
-                data: MediaQuery.of(context).copyWith(textScaleFactor: 1.0),
+                data: MediaQuery.of(context).copyWith(textScaler: const TextScaler.linear(1.0)),
                 child: widget!);
           },
         );
