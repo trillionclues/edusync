@@ -4,6 +4,7 @@ import 'package:glypha/app/routes/route_paths.dart';
 import 'package:glypha/core/providers/app_bar_provider.dart';
 import 'package:glypha/core/themes/app_theme.dart';
 import 'package:glypha/features/auth/presentation/provider/auth_notifier.dart';
+import 'package:glypha/features/auth/presentation/provider/auth_providers.dart';
 import 'package:glypha/features/auth/presentation/provider/auth_state.dart';
 import 'package:glypha/features/auth/presentation/widgets/social_login_button.dart';
 import 'package:go_router/go_router.dart';
@@ -74,20 +75,6 @@ class _LoginPageState extends ConsumerState<LoginPage>
     ref.read(authNotifierProvider.notifier).signInWithApple();
   }
 
-  void safeNavigate(String name) {
-    if (!_isMounted) return;
-
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      if (_isMounted) {
-        context.go(name);
-      }
-    });
-  }
-
-  Future<void> handleSuccessfulLogin(String id) async {
-    safeNavigate(AppRoute.home.name);
-  }
-
   @override
   Widget build(BuildContext context) {
     final state = ref.watch(authNotifierProvider);
@@ -96,7 +83,18 @@ class _LoginPageState extends ConsumerState<LoginPage>
 
     ref.listen(authNotifierProvider, (prev, next) {
       next.maybeWhen(
-        authenticated: (user) => handleSuccessfulLogin(user.id),
+        authenticated: (user) async {
+          final needsDetails = await ref.read(
+            needsAdditionalDetailsProvider(user.id).future,
+          );
+          if (_isMounted) {
+            if (needsDetails) {
+              context.goNamed(AppRoute.additionalDetails.name);
+            } else {
+              context.goNamed(AppRoute.home.name);
+            }
+          }
+        },
         error: (failure) {
           if (_isMounted) {
             ScaffoldMessenger.of(context).showSnackBar(
@@ -216,7 +214,8 @@ class _LoginPageState extends ConsumerState<LoginPage>
                             width: double.infinity,
                             child: SocialLoginButton(
                               type: SocialLoginType.google,
-                              isLoading: state.isLoadingProvider(LoginProvider.google),
+                              isLoading:
+                                  state.isLoadingProvider(LoginProvider.google),
                               onPressed: handleGoogleSignIn,
                             )),
                         const SizedBox(height: 14),
@@ -224,7 +223,8 @@ class _LoginPageState extends ConsumerState<LoginPage>
                           width: double.infinity,
                           child: SocialLoginButton(
                             type: SocialLoginType.apple,
-                            isLoading: state.isLoadingProvider(LoginProvider.apple),
+                            isLoading:
+                                state.isLoadingProvider(LoginProvider.apple),
                             onPressed: handleAppleSignIn,
                           ),
                         ),

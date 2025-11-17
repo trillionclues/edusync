@@ -1,4 +1,3 @@
-
 import 'package:glypha/core/failure/failure.dart';
 import 'package:glypha/core/services/auth_service.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -38,7 +37,7 @@ class AuthNotifier extends _$AuthNotifier {
   }
 
   Future<void> signInWithGoogle() async {
-    state = const AuthState.loading();
+    state = const AuthState.loading(provider: LoginProvider.google);
 
     try {
       final authService = ref.read(authServiceProvider);
@@ -57,17 +56,13 @@ class AuthNotifier extends _$AuthNotifier {
   }
 
   Future<void> signInWithApple() async {
-    state = const AuthState.loading();
+    state = const AuthState.loading(provider: LoginProvider.apple);
 
     try {
       final authService = ref.read(authServiceProvider);
       final user = await authService.signInWithApple();
 
-      if (user != null) {
-        state = AuthState.authenticated(user);
-      } else {
-        state = const AuthState.unauthenticated();
-      }
+      state = AuthState.authenticated(user);
     } on AuthFailure catch (failure) {
       state = AuthState.error(failure);
     } catch (e) {
