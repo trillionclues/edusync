@@ -17,7 +17,26 @@ class LevelCircle extends StatelessWidget {
       content = const Icon(Icons.lock_rounded, size: 28, color: Colors.white);
     } else if (level.isCompleted) {
       bgColor = const Color(0xFFCD9B66);
-      content = const Icon(Icons.check_rounded, size: 30, color: Colors.white);
+      content = Stack(
+        alignment: Alignment.center,
+        children: [
+          const Icon(Icons.check_rounded, size: 30, color: Colors.white),
+          Positioned(
+            top: 25,
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: List.generate(
+                3,
+                (index) => const Icon(
+                  Icons.star,
+                  size: 8,
+                  color: Color(0xFFFFD700),
+                ),
+              ),
+            ),
+          ),
+        ],
+      );
     } else {
       bgColor = Colors.white;
       content = Text(level.emoji, style: const TextStyle(fontSize: 30));
@@ -32,10 +51,18 @@ class LevelCircle extends StatelessWidget {
           decoration: BoxDecoration(
             color: bgColor,
             shape: BoxShape.circle,
+            border: Border.all(
+              color: level.isCurrent
+                  ? const Color(0xFFFFD700)
+                  : Colors.white.withOpacity(0.5),
+              width: level.isCurrent ? 3 : 2,
+            ),
             boxShadow: [
               BoxShadow(
-                color: Colors.black.withOpacity(0.15),
-                blurRadius: 8,
+                color: level.isCurrent
+                    ? const Color(0xFFFFD700).withOpacity(0.4)
+                    : Colors.black.withOpacity(0.15),
+                blurRadius: level.isCurrent ? 12 : 8,
                 offset: const Offset(0, 4),
               ),
             ],
@@ -51,9 +78,19 @@ class LevelCircle extends StatelessWidget {
               decoration: const BoxDecoration(
                 color: Color(0xFFFFD700),
                 shape: BoxShape.circle,
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black26,
+                    blurRadius: 4,
+                    offset: Offset(0, 2),
+                  ),
+                ],
               ),
-              child: const Icon(Icons.emoji_events_rounded,
-                  size: 18, color: Colors.white),
+              child: const Icon(
+                Icons.emoji_events_rounded,
+                size: 18,
+                color: Colors.white,
+              ),
             ),
           ),
       ],

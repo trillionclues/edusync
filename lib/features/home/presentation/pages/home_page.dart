@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-
-import 'package:glypha/features/home/presentation/widgets/custom_bottom_navigation.dart';
 import 'package:glypha/features/home/presentation/widgets/map_view.dart';
 import 'package:glypha/features/home/presentation/widgets/topstats_bar.dart';
 
@@ -15,7 +13,6 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
   final ScrollController _scrollController = ScrollController();
   late AnimationController _pulseController;
-  int _currentNavIndex = 0;
 
   @override
   void initState() {
@@ -55,19 +52,6 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
             pulseController: _pulseController,
           ),
           const TopStatsBar(),
-          Positioned(
-            bottom: 10,
-            left: 20,
-            right: 20,
-            child: CustomBottomNavigation(
-              currentIndex: _currentNavIndex,
-              onTap: (index) {
-                setState(() {
-                  _currentNavIndex = index;
-                });
-              },
-            ),
-          ),
         ],
       ),
     );

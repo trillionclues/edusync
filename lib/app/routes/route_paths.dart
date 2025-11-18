@@ -6,4 +6,7 @@ enum AppRoute {
   additionalDetails,
 
   home,
+  leaderboard,
+  practice,
+  profile
 }

@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:glypha/features/home/data/model/level_data.dart';
 import 'package:glypha/features/home/presentation/widgets/landscape_layers.dart';
-import 'package:glypha/features/home/presentation/widgets/level_mode.dart';
+import 'package:glypha/features/home/presentation/widgets/level_node.dart';
 import 'package:glypha/features/home/presentation/widgets/path_finder.dart';
 
 class MapView extends StatelessWidget {
   final ScrollController scrollController;
   final AnimationController pulseController;
 
-  const MapView({super.key,
+  const MapView({
+    super.key,
     required this.scrollController,
     required this.pulseController,
   });
@@ -38,7 +39,6 @@ class MapView extends StatelessWidget {
         height: totalHeight,
         child: Stack(
           children: [
-            // Sky gradient
             Container(
               height: totalHeight,
               decoration: const BoxDecoration(
@@ -53,17 +53,12 @@ class MapView extends StatelessWidget {
                 ),
               ),
             ),
-
-            // Landscape layers
             LandscapeLayers(height: totalHeight),
-
-            // Path
             CustomPaint(
               size: Size(screenWidth, totalHeight),
-              painter: PathPainter(levels, screenWidth),
+              painter: DashedRoadPathPainter(levels, screenWidth),
             ),
 
-            // Level nodes
             ...levels.asMap().entries.map((entry) {
               final index = entry.key;
               final level = entry.value;
@@ -78,9 +73,7 @@ class MapView extends StatelessWidget {
                 ),
               );
             }).toList(),
-
-            // Bottom padding for navigation bar
-            SizedBox(height: 100),
+            const SizedBox(height: 100),
           ],
         ),
       ),

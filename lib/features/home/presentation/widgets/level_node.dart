@@ -2,6 +2,7 @@ import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:glypha/core/widgets/layout/level_bottom_sheet.dart';
 import 'package:glypha/features/home/data/model/level_data.dart';
 import 'package:glypha/features/home/presentation/widgets/level_circle.dart';
 
@@ -9,7 +10,8 @@ class LevelNode extends StatelessWidget {
   final LevelData level;
   final AnimationController pulseController;
 
-  const LevelNode({super.key,
+  const LevelNode({
+    super.key,
     required this.level,
     required this.pulseController,
   });
@@ -18,10 +20,13 @@ class LevelNode extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: level.isLocked
-          ? null
+          ? () {
+        HapticFeedback.heavyImpact();
+        _showLockedFeedback(context);
+      }
           : () {
         HapticFeedback.mediumImpact();
-        _showLevelDialog(context);
+        _showLevelBottomSheet(context);
       },
       child: Column(
         children: [
@@ -38,7 +43,7 @@ class LevelNode extends StatelessWidget {
               : LevelCircle(level: level),
           const SizedBox(height: 8),
           Container(
-            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 5),
+            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
             decoration: BoxDecoration(
               color: Colors.white,
               borderRadius: BorderRadius.circular(14),
@@ -53,8 +58,8 @@ class LevelNode extends StatelessWidget {
             child: Text(
               'Level ${level.number}',
               style: const TextStyle(
-                fontWeight: FontWeight.w700,
-                fontSize: 12,
+                fontWeight: FontWeight.w600,
+                fontSize: 10,
                 color: Color(0xFF4A5568),
               ),
             ),
@@ -64,38 +69,30 @@ class LevelNode extends StatelessWidget {
     );
   }
 
-  void _showLevelDialog(BuildContext context) {
-    showDialog(
-      context: context,
-      builder: (context) => AlertDialog(
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-        title: Row(
+  void _showLockedFeedback(BuildContext context) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Row(
           children: [
-            Text(level.emoji, style: const TextStyle(fontSize: 32)),
-            const SizedBox(width: 12),
-            Text('Level ${level.number}'),
+            const Icon(Icons.lock_rounded, color: Colors.white, size: 20),
+            const SizedBox(width: 8),
+            Text('Complete Level ${level.number - 1} to unlock'),
           ],
         ),
-        content: Text(level.isCompleted
-            ? 'Replay this level? ✓'
-            : 'Start this challenge?'),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(context),
-            child: const Text('Cancel'),
-          ),
-          ElevatedButton(
-            onPressed: () {
-              Navigator.pop(context);
-            },
-            style: ElevatedButton.styleFrom(
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(12)),
-            ),
-            child: const Text('Play'),
-          ),
-        ],
+        backgroundColor: const Color(0xFF8B8B8B),
+        behavior: SnackBarBehavior.floating,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+        duration: const Duration(seconds: 2),
       ),
+    );
+  }
+
+  void _showLevelBottomSheet(BuildContext context) {
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent,
+      builder: (context) => LevelBottomSheet(level: level),
     );
   }
 }

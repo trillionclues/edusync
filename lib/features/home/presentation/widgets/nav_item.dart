@@ -18,8 +18,8 @@ class NavItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final color = isActive
-        ?AppTheme.primaryOrange // Duolingo blue
-        : AppTheme.lightOrange; // Lighter gray
+        ?AppTheme.primaryOrange
+        : const Color(0xFFCD9B66);
 
     return InkWell(
       onTap: () {
@@ -32,7 +32,7 @@ class NavItem extends StatelessWidget {
         child: Icon(
           isActive ? activeIcon : icon,
           color: color,
-          size: 32,
+          size: 28,
         ),
       ),
     );
